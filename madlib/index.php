@@ -2,6 +2,18 @@
 
 session_start();
 
+$user = "root";
+$pass = "secretpassword";
+$pdo = new PDO('mysql:host=localhost;dbname=php-projects-stories', $user, $pass);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+if (!isset($_SESSION['story']))
+{
+  $statement = $pdo->prepare("INSERT INTO story (timecreated) VALUES (?)");
+  $statement->execute([time()]);
+  $_SESSION['story'] = $pdo->lastInsertId();
+}
+
 $name = $_SESSION['words']['name'] ?? '';
 $noun1 = $_SESSION['words']['noun1'] ?? '';
 $verb = $_SESSION['words']['verb'] ?? '';

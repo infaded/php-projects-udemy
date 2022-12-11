@@ -16,6 +16,24 @@ $_SESSION['words'] = [
   'noun2' => $noun2,
 ];
 
+$user = "root";
+$pass = "secretpassword";
+$pdo = new PDO('mysql:host=localhost;dbname=php-projects-stories', $user, $pass);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+if (!isset($_SESSION['story']))
+{
+  $statement = $pdo->prepare("INSERT INTO story (timecreated) VALUES (?)");
+  $statement->execute([time()]);
+  $_SESSION['story'] = $pdo->lastInsertId();
+}
+
+$deleteStatement = $pdo->prepare("DELETE FROM story_words WHERE story_id = ?");
+$deleteStatement->execute([$_SESSION['story']]);
+
+$insertStatement = $pdo->prepare("INSERT INTO story_words (story_id, label, word) VALUES (?, ?, ?)");
+$insertStatement->execute([$_SESSION['story'], 'name', $name]);
+
 ?>
 <!DOCTYPE html>
 <html>
