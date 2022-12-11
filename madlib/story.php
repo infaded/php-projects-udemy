@@ -1,6 +1,10 @@
 <?php
+use \MadLib\Application;
 
-session_start();
+require __DIR__ . '/Application.php';
+
+$application = new Application();
+$application->initializeApplication();
 
 $name = $_POST['name'] ?? '';
 $noun1 = $_POST['noun1'] ?? '';
@@ -8,27 +12,19 @@ $verb = $_POST['verb'] ?? '';
 $adjective = $_POST['adjective'] ?? '';
 $noun2 = $_POST['noun2'] ?? '';
 
-$user = "root";
-$pass = "secretpassword";
-$pdo = new PDO('mysql:host=localhost;dbname=php-projects-stories', $user, $pass);
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$pdo = $application->getDatabase();
 
-if (!isset($_SESSION['story']))
-{
-  $statement = $pdo->prepare("INSERT INTO story (timecreated) VALUES (?)");
-  $statement->execute([time()]);
-  $_SESSION['story'] = $pdo->lastInsertId();
-}
+$storyId = $application->getCurrentStory();
 
 $deleteStatement = $pdo->prepare("DELETE FROM story_words WHERE story_id = ?");
-$deleteStatement->execute([$_SESSION['story']]);
+$deleteStatement->execute([$storyId]);
 
 $insertStatement = $pdo->prepare("INSERT INTO story_words (story_id, label, word) VALUES (?, ?, ?)");
-$insertStatement->execute([$_SESSION['story'], 'name', $name]);
-$insertStatement->execute([$_SESSION['story'], 'noun1', $noun1]);
-$insertStatement->execute([$_SESSION['story'], 'verb', $verb]);
-$insertStatement->execute([$_SESSION['story'], 'adjective', $adjective]);
-$insertStatement->execute([$_SESSION['story'], 'noun2', $noun2]);
+$insertStatement->execute([$storyId, 'name', $name]);
+$insertStatement->execute([$storyId, 'noun1', $noun1]);
+$insertStatement->execute([$storyId, 'verb', $verb]);
+$insertStatement->execute([$storyId, 'adjective', $adjective]);
+$insertStatement->execute([$storyId, 'noun2', $noun2]);
 
 ?>
 <!DOCTYPE html>

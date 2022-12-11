@@ -1,6 +1,10 @@
 <?php
+use \MadLib\Application;
 
-session_start();
+require __DIR__ . '/Application.php';
+
+$application = new Application();
+$application->initializeApplication();
 
 if(isset($_GET['newstory']))
 {
@@ -10,22 +14,15 @@ if(isset($_GET['newstory']))
 }
 elseif (isset($_GET['storyid']))
 {
-  $_SESSION['story'] = $_GET['storyid'];
+  $application->setCurrentStory($_GET['storyid']);
 }
 
-$user = "root";
-$pass = "secretpassword";
-$pdo = new PDO('mysql:host=localhost;dbname=php-projects-stories', $user, $pass);
-$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$pdo = $application->getDatabase();
 
-if (!isset($_SESSION['story'])) {
-  $statement = $pdo->prepare("INSERT INTO story (timecreated) VALUES (?)");
-  $statement->execute([time()]);
-  $_SESSION['story'] = $pdo->lastInsertId();
-}
+$storyId = $application->getCurrentStory();
 
 $storyStatement = $pdo->prepare("SELECT * FROM story_words WHERE story_id = ?");
-$storyStatement->execute([$_SESSION['story']]);
+$storyStatement->execute([$storyId]);
 
 $words = [];
 foreach ($storyStatement as $row) {
