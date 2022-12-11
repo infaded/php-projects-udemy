@@ -1,0 +1,19 @@
+{
+    "name": "php-projects/url.dev",
+    "description": "A simple URL Shortener",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "PhpProjects\\UrlDev\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sheng Tan",
+            "email": "scjtan@hotmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
