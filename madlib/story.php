@@ -33,6 +33,10 @@ $deleteStatement->execute([$_SESSION['story']]);
 
 $insertStatement = $pdo->prepare("INSERT INTO story_words (story_id, label, word) VALUES (?, ?, ?)");
 $insertStatement->execute([$_SESSION['story'], 'name', $name]);
+$insertStatement->execute([$_SESSION['story'], 'noun1', $noun1]);
+$insertStatement->execute([$_SESSION['story'], 'verb', $verb]);
+$insertStatement->execute([$_SESSION['story'], 'adjective', $adjective]);
+$insertStatement->execute([$_SESSION['story'], 'noun2', $noun2]);
 
 ?>
 <!DOCTYPE html>
