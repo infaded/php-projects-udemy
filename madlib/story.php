@@ -8,14 +8,6 @@ $verb = $_POST['verb'] ?? '';
 $adjective = $_POST['adjective'] ?? '';
 $noun2 = $_POST['noun2'] ?? '';
 
-$_SESSION['words'] = [
-  'name' => $name,
-  'noun1' => $noun1,
-  'verb' => $verb,
-  'adjective' => $adjective,
-  'noun2' => $noun2,
-];
-
 $user = "root";
 $pass = "secretpassword";
 $pdo = new PDO('mysql:host=localhost;dbname=php-projects-stories', $user, $pass);
