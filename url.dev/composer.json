@@ -3,11 +3,6 @@
     "description": "A simple URL Shortener",
     "type": "project",
     "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "PhpProjects\\UrlDev\\": "src/"
-        }
-    },
     "authors": [
         {
             "name": "Sheng Tan",
@@ -15,5 +10,10 @@
         }
     ],
     "minimum-stability": "stable",
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "UrlShortener\\": "src/"
+        }
+    }
 }
