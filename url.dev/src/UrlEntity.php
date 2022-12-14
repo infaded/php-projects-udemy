@@ -66,4 +66,23 @@ class UrlEntity
   {
     return $this->shortenedUrl;
   }
+
+  /**
+   * Determines if the URL is valid
+   * The target URL must be a properly formatted URL with either an http or https scheme
+   * 
+   * @return bool
+   */
+  public function isValid()
+  {
+    $validUrl = filter_var($this->targetUrl, FILTER_VALIDATE_URL);
+
+    if ($validUrl !== false) {
+      $protocol = parse_url($validUrl, PHP_URL_SCHEME);
+      if ($protocol == 'http' || $protocol = 'https') {
+        return true;
+      }
+    }
+    return false;
+  }
 }
